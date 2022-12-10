@@ -19,7 +19,7 @@ services:
           - key: DB_CONNECTION
             value: pgsql
           - key: DB_HOST
-            fromService:
+            fromDatabase:
                 name: postgreSql
                 property: connectionString
       autoDeploy: false
