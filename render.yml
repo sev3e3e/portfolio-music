@@ -1,0 +1,30 @@
+services:
+    - type: web
+      name: laravel
+      env: docker
+      rootDir: src
+      dockerContext: ./php
+      dockerfilePath: ./php/dockerfile
+      envVars:
+          - key: APP_NAME
+            value: Laravel
+          - key: APP_ENV
+            value: production
+          - key: APP_KEY
+            value: base64:TgW0bTP8LXBUbE9d+NLEfX0ZBpr/Jf0QB16YoRdwLb8=
+          - key: APP_DEBUG
+            value: false
+          - key: LOG_CHANNEL
+            value: stack
+          - key: DB_CONNECTION
+            value: pgsql
+          - key: DB_HOST
+            fromService:
+                name: postgreSql
+                property: connectionString
+      autoDeploy: false
+
+databases:
+    - name: postgreSql
+      region: singapore
+      ipAllowList: []
