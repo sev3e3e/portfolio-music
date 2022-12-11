@@ -1,3 +1,8 @@
+FROM node:16-slim as node-builder
+
+COPY ./src ./app
+RUN cd /app && npm ci && npm run prod
+
 FROM php:8.2-apache
 
 RUN apt update && apt install -y zlib1g-dev g++ libicu-dev zip libzip-dev zip libpq-dev \
@@ -9,6 +14,15 @@ RUN apt update && apt install -y zlib1g-dev g++ libicu-dev zip libzip-dev zip li
     && apt-get install -y git \
     && a2enmod rewrite
 
+RUN echo "ServerName localhost" | tee /etc/apache2/conf-available/fqdn.conf
+RUN a2enconf fqdn
+
 WORKDIR /var/www/html
 
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
+
+COPY . ./
+COPY --from=node-builder /app/public ./public
+RUN composer install
+
+RUN chown -Rf www-data:www-data ./
