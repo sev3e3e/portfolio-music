@@ -16,7 +16,7 @@ services:
         build:
             context: ./src
         ports:
-            - "8080:80"
+            - "80:80"
             - "${VITE_PORT:-5173}:${VITE_PORT:-5173}"
         volumes:
             - ./src:/var/www/html
