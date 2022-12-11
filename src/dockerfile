@@ -3,7 +3,7 @@ FROM node:16-slim as node-builder
 COPY . ./app
 RUN cd /app && npm install && npm run build
 
-FROM php:8.2-apache as production
+FROM php:8.2-apache
 
 RUN apt update && apt install -y zlib1g-dev g++ libicu-dev zip libzip-dev zip libpq-dev \
     && docker-php-ext-install intl opcache pdo pgsql pdo_pgsql \
@@ -29,7 +29,7 @@ RUN chown -Rf www-data:www-data ./
 
 # for development
 
-FROM php:8.2-apache
+FROM php:8.2-apache as development
 
 RUN apt update && apt install -y zlib1g-dev g++ libicu-dev zip libzip-dev zip libpq-dev \
     && docker-php-ext-install intl opcache pdo pgsql pdo_pgsql \
