@@ -1,6 +1,4 @@
-# for development
-
-FROM php:8.2-apache as development
+FROM php:8.2-apache
 
 RUN apt update && apt install -y zlib1g-dev g++ libicu-dev zip libzip-dev zip libpq-dev \
     && docker-php-ext-install intl opcache pdo pgsql pdo_pgsql \
@@ -29,5 +27,7 @@ COPY . ./
 
 RUN composer install
 RUN npm install && npm run build
+
+RUN php artisan migrate --force
 
 RUN chown -Rf www-data:www-data ./
