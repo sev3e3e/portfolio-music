@@ -14,9 +14,10 @@ services:
     php:
         container_name: php
         build:
-            context: ./php
+            context: ./src
         ports:
             - "8080:80"
+            - "${VITE_PORT:-5173}:${VITE_PORT:-5173}"
         volumes:
             - ./src:/var/www/html
             - ./apache/default.conf:/etc/apache2/sites-enabled/000-default.conf
