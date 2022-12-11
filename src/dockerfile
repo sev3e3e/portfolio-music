@@ -25,6 +25,6 @@ COPY --from=composer:2.0 /usr/bin/composer /usr/bin/composer
 COPY . ./
 
 RUN composer install
-RUN npm install
+RUN npm install && npm run build
 
 RUN chown -Rf www-data:www-data ./
