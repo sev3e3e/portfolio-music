@@ -18,10 +18,10 @@
     <div id="background" class="flex flex-col min-h-screen place-content-center  place-items-center text-white">
         <video id="bg-video" preload="auto"
             class="absolute object-cover top-0 left-0 w-full h-full -z-10 bg-no-repeat brightness-75 blur-[1px]">
-            <source src={{ $movieSrc }}>
+            <source id="bg-source" src={{ $movieSrc }}>
         </video>
         <audio id="audio">
-            <source src={{ $songSrc }} type="audio/mp3">
+            <source id="audio-source" src={{ $songSrc }} type="audio/mp3">
         </audio>
 
         <div class="bg-black bg-opacity-20 backdrop-blur-lg rounded drop-shadow-md p-10">

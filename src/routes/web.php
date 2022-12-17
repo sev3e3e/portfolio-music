@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\SongController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Storage;
 use App\Models\Song;
@@ -27,6 +28,12 @@ Route::get('/', function () {
         "movieSrc" => $disk->url("medias/${id}.mp4"),
     ]);
 });
+
+Route::get("song/prev", [SongController::class, "previous"]);
+Route::get("song/next", [SongController::class, "next"]);
+Route::get("song/both", [SongController::class, "both"]);
+Route::get("song/{id}", [SongController::class, "show"]);
+
 
 Route::get('/dashboard', function () {
     return view('dashboard');
