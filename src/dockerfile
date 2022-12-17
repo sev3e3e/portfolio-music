@@ -28,6 +28,6 @@ COPY . ./
 RUN composer install
 RUN npm install && npm run build
 
-RUN php artisan migrate --force
+# RUN php artisan migrate --force
 
 RUN chown -Rf www-data:www-data ./
