@@ -13,8 +13,11 @@
 ## tech-stacks
 - PHP
 - Laravel 9
+- Laravel Breeze
+- Tailwind CSS
 - PostgreSQL
 - render.com
+- GCP (Google Cloud Storage)
 
 ## 何でこの構成なの？
 
