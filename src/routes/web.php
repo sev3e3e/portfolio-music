@@ -2,7 +2,8 @@
 
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
-
+use Illuminate\Support\Facades\Storage;
+use App\Models\Song;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -15,7 +16,16 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    $song = Song::first();
+    $id = $song->id;
+
+    $disk = Storage::disk("gcs");
+
+    return view('index', [
+        "song" => $song,
+        "songSrc" => $disk->url("audios/${id}.mp3"),
+        "movieSrc" => $disk->url("medias/${id}.mp4"),
+    ]);
 });
 
 Route::get('/dashboard', function () {
@@ -28,4 +38,4 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';
