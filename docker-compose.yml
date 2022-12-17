@@ -16,10 +16,10 @@ services:
         build:
             context: ./src
         ports:
-            - "8080:80"
+            - "80:80"
             - "${VITE_PORT:-5173}:${VITE_PORT:-5173}"
         volumes:
             - ./src:/var/www/html
-            - ./apache/default.conf:/etc/apache2/sites-enabled/000-default.conf
+            # - ./apache/default.conf:/etc/apache2/sites-enabled/000-default.conf
         depends_on:
             - database
