@@ -10,7 +10,7 @@
     <!-- Fonts -->
     <link href="https://fonts.bunny.net/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
 
-    @vite(['resources/css/app.css', 'resources/js/app.js', 'resources/js/index.js'])
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
 
 </head>
 
@@ -209,5 +209,7 @@
         </div>
     </div>
 </body>
+
+<script src="{{ Vite::asset('resources/js/index.js') }}"></script>
 
 </html>
