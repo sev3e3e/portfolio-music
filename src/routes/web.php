@@ -17,21 +17,23 @@ use App\Models\Song;
 */
 
 Route::get('/', function () {
-    $song = Song::first();
-    $id = $song->id;
+    // $song = Song::first();
+    // $id = $song->id;
 
-    $disk = Storage::disk("gcs");
+    // $disk = Storage::disk("gcs");
 
-    return view('index', [
-        "song" => $song,
-        "songSrc" => $disk->url("audios/${id}.mp3"),
-        "movieSrc" => $disk->url("medias/${id}.mp4"),
-    ]);
+    // return view('index', [
+    //     "song" => $song,
+    //     "songSrc" => $disk->url("audios/${id}.mp3"),
+    //     "movieSrc" => $disk->url("medias/${id}.mp4"),
+    // ]);
+    return view("index");
 });
 
 Route::get("song/prev", [SongController::class, "previous"]);
 Route::get("song/next", [SongController::class, "next"]);
 Route::get("song/both", [SongController::class, "both"]);
+Route::get("song/all", [SongController::class, "all"]);
 Route::get("song/{id}", [SongController::class, "show"]);
 
 

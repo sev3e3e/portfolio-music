@@ -3,6 +3,8 @@
 var audio = document.getElementById("audio");
 var playButton = document.getElementById("playButton");
 var pauseButton = document.getElementById("pauseButton");
+var prevButton = document.getElementById("prevButton");
+var nextButton = document.getElementById("nextButton");
 
 var progressBar = document.getElementById("progress");
 var playingStatus = document.getElementById("playingStatus");
@@ -13,23 +15,69 @@ var songTitle = document.getElementById("playingMusicName");
 var songCreator = document.getElementById("creator");
 
 var mouseDownOnSlider = false;
-var currentSongId = 1;
+var currentSongIndex = 0;
 var isAudioPlaying = false;
 
 const _sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
-function changeSong(song) {
-    console.log(song);
-    bgSource.src = song.song.movieSrc;
+var datas = [];
+
+window.addEventListener("DOMContentLoaded", () => {
+    // init index page.
+    // fetch(`/song/both?id=${currentSongId}`)
+    //     .then((res) => res.json())
+    //     .then((data) => {
+    //         songData = data;
+    //         changeButtonStyles(data);
+    //         changeSong(data.song);
+    //     });
+    fetch(`/song/all`)
+        .then((res) => res.json())
+        .then((data) => {
+            console.log(data);
+            datas = data;
+            changeButtonStyles(data[0]);
+            changeSong(data[0]);
+        });
+});
+
+function changeSong(data) {
+    console.log(data);
+    bgSource.src = data.movieSrc;
     bg.load();
 
-    audioSource.src = song.song.audioSrc;
+    audioSource.src = data.audioSrc;
     audio.load();
 
-    songTitle.innerHTML = song.song.name;
-    songCreator.innerHTML = song.song.creator.name;
-    progressBar.value = -9999;
-    // currentSongId += 1;
+    songTitle.innerHTML = data.name;
+    songCreator.innerHTML = data.creators[0].name;
+    progressBar.value = 0;
+}
+
+function changeButtonStyles(data, currentIndex) {
+    if (0 >= currentIndex) {
+        if (!prevButton.classList.contains("opacity-10")) {
+            prevButton.classList.add("opacity-10");
+        }
+
+        if (!prevButton.classList.contains("cursor-default")) {
+            prevButton.classList.add("cursor-default");
+        }
+    } else {
+        prevButton.classList = [];
+    }
+
+    if (data.length <= currentIndex) {
+        if (!nextButton.classList.contains("opacity-10")) {
+            nextButton.classList.add("opacity-10");
+        }
+
+        if (!nextButton.classList.contains("cursor-default")) {
+            nextButton.classList.add("cursor-default");
+        }
+    } else {
+        nextButton.classList = [];
+    }
 }
 
 playButton.addEventListener("click", () => {
@@ -39,6 +87,32 @@ playButton.addEventListener("click", () => {
 pauseButton.addEventListener("click", () => {
     audio.pause();
     bg.pause();
+});
+prevButton.addEventListener("click", () => {
+    if (0 >= currentSongIndex) return;
+
+    audio.pause();
+    bg.pause();
+
+    pauseButton.hidden = true;
+    playButton.hidden = false;
+
+    currentSongIndex -= 1;
+
+    changeSong(datas[currentSongIndex]);
+});
+nextButton.addEventListener("click", () => {
+    if (datas.length <= currentSongIndex) return;
+
+    audio.pause();
+    bg.pause();
+
+    pauseButton.hidden = true;
+    playButton.hidden = false;
+
+    currentSongIndex += 1;
+
+    changeSong(datas[currentSongIndex]);
 });
 
 audio.addEventListener("play", () => {
@@ -66,9 +140,20 @@ audio.addEventListener("timeupdate", async () => {
 audio.addEventListener("ended", () => {
     isAudioPlaying = false;
 
-    fetch(`/song/both?id=${currentSongId + 1}`)
-        .then((res) => res.json())
-        .then((data) => changeSong(data));
+    if (datas.length <= currentSongIndex) return;
+
+    currentSongIndex += 1;
+    changeSong(datas[currentSongIndex]);
+
+    // fetch(`/song/both?id=${currentSongId + 1}`)
+    //     .then((res) => res.json())
+    //     .then((data) => {
+    //         songData = data;
+    //         changeButtonStyles(data);
+    //         changeSong(data.song);
+
+    //         currentSongId += 1;
+    //     });
 });
 
 progressBar.addEventListener("mousedown", () => {

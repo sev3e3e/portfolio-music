@@ -68,7 +68,7 @@ class SongController extends Controller
             ->first();
 
         if ($prev != null) {
-            $prevId = property_exists($prev, "id") ? $prev->id : null;
+            $prevId = $prev->id;
             $prev->audioSrc = $prevId != null ? $disk->url("audios/${prevId}.mp3") : null;
             $prev->movieSrc = $prevId != null ? $disk->url("medias/${prevId}.mp4") : null;
             $prev->creator = $prev->creators()->first();
@@ -144,5 +144,19 @@ class SongController extends Controller
         return response()->json(Song::where("id", ">", $id)
             ->get()
             ->first());
+    }
+
+    public function all()
+    {
+        $disk = Storage::disk("gcs");
+
+        $datas = Song::with("creators")->get();
+
+        foreach ($datas as &$value) {
+            $id = $value->id;
+            $value->audioSrc = $disk->url("audios/${id}.mp3");
+            $value->movieSrc = $disk->url("medias/${id}.mp4");
+        }
+        return response()->json($datas);
     }
 }

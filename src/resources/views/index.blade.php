@@ -18,10 +18,12 @@
     <div id="background" class="flex flex-col min-h-screen place-content-center  place-items-center text-white">
         <video id="bg-video" preload="auto"
             class="absolute object-cover top-0 left-0 w-full h-full -z-10 bg-no-repeat brightness-75 blur-[1px]">
-            <source id="bg-source" src={{ $movieSrc }}>
+            {{-- <source id="bg-source" src={{ $movieSrc }}> --}}
+            <source id="bg-source">
         </video>
         <audio id="audio">
-            <source id="audio-source" src={{ $songSrc }} type="audio/mp3">
+            {{-- <source id="audio-source" src={{ $songSrc }} type="audio/mp3"> --}}
+            <source id="audio-source">
         </audio>
 
         <div class="bg-black bg-opacity-20 backdrop-blur-lg rounded drop-shadow-md p-10">
@@ -42,13 +44,13 @@
             </div>
             <div class="flex flex-col items-end">
                 {{-- <p id="playingMusicName" class="text-4xl tracking-tighter py-2">{{ $song->name }}</p> --}}
-                <p id="playingMusicName" class="text-4xl tracking-tighter py-2">{{ $song->name }}</p>
+                <p id="playingMusicName" class="text-4xl tracking-tighter py-2"></p>
             </div>
 
             <div class="flex items-center p-0 m-0 gap-5">
 
                 <div class="flex items-center p-0 m-0 gap-1">
-                    <button id="prevButton">
+                    <button id="prevButton" class="opacity-10 cursor-default">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                             stroke="currentColor" class="w-8 h-8">
                             <path stroke-linecap="round" stroke-linejoin="round"
@@ -92,7 +94,7 @@
                     <p class="text-lg">from</p>
                     {{-- <p class=text-3xl>{{ $song->creator }}</p> --}}
                     <p id="creator" class=text-3xl>
-                        {{ $song->creators()->first()->name }}
+                        {{-- {{ $song->creators()->first()->name }} --}}
                     </p>
                 </div>
             </div>
