@@ -52,6 +52,9 @@ function changeSong(data) {
     songTitle.innerHTML = data.name;
     songCreator.innerHTML = data.creators[0].name;
     progressBar.value = 0;
+
+    audio.play();
+    bg.play();
 }
 
 function changeButtonStyles(data, currentIndex) {
