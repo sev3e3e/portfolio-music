@@ -36,7 +36,7 @@ window.addEventListener("DOMContentLoaded", () => {
         .then((data) => {
             console.log(data);
             datas = data;
-            changeButtonStyles(data[0]);
+            changeButtonStyles(currentSongIndex);
             changeSong(data[0]);
         });
 });
@@ -57,7 +57,9 @@ function changeSong(data) {
     bg.play();
 }
 
-function changeButtonStyles(data, currentIndex) {
+function changeButtonStyles(currentIndex) {
+    length = datas.length - 1;
+
     if (0 >= currentIndex) {
         if (!prevButton.classList.contains("opacity-10")) {
             prevButton.classList.add("opacity-10");
@@ -70,7 +72,7 @@ function changeButtonStyles(data, currentIndex) {
         prevButton.classList = [];
     }
 
-    if (data.length <= currentIndex) {
+    if (length <= currentIndex) {
         if (!nextButton.classList.contains("opacity-10")) {
             nextButton.classList.add("opacity-10");
         }
@@ -101,11 +103,11 @@ prevButton.addEventListener("click", () => {
     playButton.hidden = false;
 
     currentSongIndex -= 1;
-
+    changeButtonStyles(currentSongIndex);
     changeSong(datas[currentSongIndex]);
 });
 nextButton.addEventListener("click", () => {
-    if (datas.length <= currentSongIndex) return;
+    if (datas.length - 1 <= currentSongIndex) return;
 
     audio.pause();
     bg.pause();
@@ -114,7 +116,7 @@ nextButton.addEventListener("click", () => {
     playButton.hidden = false;
 
     currentSongIndex += 1;
-
+    changeButtonStyles(currentSongIndex);
     changeSong(datas[currentSongIndex]);
 });
 
@@ -146,6 +148,7 @@ audio.addEventListener("ended", () => {
     if (datas.length <= currentSongIndex) return;
 
     currentSongIndex += 1;
+    changeButtonStyles(currentSongIndex);
     changeSong(datas[currentSongIndex]);
 
     // fetch(`/song/both?id=${currentSongId + 1}`)
