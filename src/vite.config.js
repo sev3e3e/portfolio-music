@@ -17,6 +17,7 @@ export default defineConfig({
                 "resources/css/app.css",
                 "resources/js/app.js",
                 "resources/js/index.js",
+                "resources/js/modal.js",
             ],
             refresh: true,
         }),
