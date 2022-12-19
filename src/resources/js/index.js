@@ -1,5 +1,7 @@
 "use strict";
 
+import "./modal";
+
 var audio = document.getElementById("audio");
 var playButton = document.getElementById("playButton");
 var pauseButton = document.getElementById("pauseButton");
@@ -124,12 +126,16 @@ audio.addEventListener("play", () => {
     pauseButton.hidden = false;
     playButton.hidden = true;
 
+    playingStatus.innerHTML = "playing...";
+
     isAudioPlaying = true;
 });
 
 audio.addEventListener("pause", () => {
     pauseButton.hidden = true;
     playButton.hidden = false;
+
+    playingStatus.innerHTML = "pausing...";
 
     isAudioPlaying = false;
 });

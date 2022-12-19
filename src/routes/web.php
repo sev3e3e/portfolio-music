@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SongController;
+use App\Models\Creator;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Storage;
 use App\Models\Song;
@@ -27,7 +28,9 @@ Route::get('/', function () {
     //     "songSrc" => $disk->url("audios/${id}.mp3"),
     //     "movieSrc" => $disk->url("medias/${id}.mp4"),
     // ]);
-    return view("index");
+    return view("index", [
+        "creators" => Creator::all()
+    ]);
 });
 
 Route::get("song/prev", [SongController::class, "previous"]);
@@ -36,6 +39,7 @@ Route::get("song/both", [SongController::class, "both"]);
 Route::get("song/all", [SongController::class, "all"]);
 Route::get("song/{id}", [SongController::class, "show"]);
 
+Route::resource('songs', SongController::class);
 
 Route::get('/dashboard', function () {
     return view('dashboard');

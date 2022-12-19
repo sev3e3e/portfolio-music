@@ -5,6 +5,9 @@ namespace App\Http\Controllers;
 use App\Models\Song;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
+use App\Models\Creator;
 
 class SongController extends Controller
 {
@@ -37,6 +40,44 @@ class SongController extends Controller
     public function store(Request $request)
     {
         //
+        // $song = Auth::user()
+        //     ->songs()
+        //     ->create([
+        //         "name" => $request->songName,
+        //         "description" => $request->songDesc,
+        //     ]);
+        $song = Auth::user()
+            ->songs()
+            ->create([
+                "name" => $request->songName,
+                "description" => $request->songDesc,
+            ]);
+
+        $creator = Creator::where("name", "=", $request->get("creator"))->first();
+
+        if ($creator === null) {
+            $_creator = $song->creators()->create([
+                "name" => $request->get("creator")
+            ]);
+            $song->creators()->syncWithoutDetaching($_creator->id);
+        } else {
+            $song->creators()->syncWithoutDetaching($creator->id);
+        }
+
+        // info($obj);
+
+        $disk = Storage::disk("gcs");
+
+        $disk->put(
+            "audios/{$song->id}.mp3",
+            file_get_contents($request->file("songAudio"))
+        );
+        $disk->put(
+            "medias/{$song->id}.mp4",
+            file_get_contents($request->file("songMedia"))
+        );
+
+        return redirect("/");
     }
 
     /**

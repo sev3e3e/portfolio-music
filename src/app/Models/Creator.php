@@ -10,7 +10,10 @@ class Creator extends Model
 {
     use HasFactory;
 
-    public function songs(): BelongsToMany {
+    protected $fillable = ["name"];
+
+    public function songs(): BelongsToMany
+    {
         return $this->belongsToMany(Song::class);
     }
 }
