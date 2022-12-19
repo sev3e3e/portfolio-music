@@ -1,7 +1,5 @@
 "use strict";
 
-import "./modal";
-
 var audio = document.getElementById("audio");
 var playButton = document.getElementById("playButton");
 var pauseButton = document.getElementById("pauseButton");
