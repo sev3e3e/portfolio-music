@@ -16,13 +16,17 @@
 - Laravel Breeze
 - Tailwind CSS
 - PostgreSQL
+- Docker
 - render.com
 - GCP (Google Cloud Storage)
 
 ## 何でこの構成なの？
 
 - PHPを触ってみたかった
-- 生JSもあまり触ったことなかったのであえてフロントエンド側のライブラリを入れていない
+- Render.comにデプロイする関係上dockerが必須
+- Render.comのDBサービスがPostgreSQLだったのでDBはそれに合わせた
+- Render.comにファイルストレージサービスが無かったのでGCPで埋め合わせ
+- 生JSもあまり触ったことなかったのであえてフロント側のライブラリは最小限にした
 
 ## ER図
 
