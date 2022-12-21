@@ -94,9 +94,9 @@
                 @auth
                 @else
                     <p>
-                        Want to add music? Click <a href="/login" class="uppercase font-bold text-lg underline">here</a>
-                        to
-                        Signin or Signup.
+                        Want to add music?
+                        <a href="/register" class="uppercase font-bold text-lg underline ">Register</a> or <a href="/login"
+                            class="uppercase font-bold text-lg underline">Log in</a>.
                     </p>
                 @endauth
 
