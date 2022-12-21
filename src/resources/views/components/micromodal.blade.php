@@ -3,9 +3,9 @@
 
 <div id="{{ $id }}" aria-hidden="true" class="modal">
     <div tabindex="-1" class="fixed flex inset-0 m-auto justify-center items-center bg-black/60" data-micromodal-close>
-        <div role="dialog" aria-modal="true" class="w-full max-w-3xl bg-white rounded-lg shadow dark:bg-gray-700">
+        <div role="dialog" aria-modal="true" class="w-full max-w-3xl bg-white rounded-lg shadow">
             <!-- Modal header -->
-            <div class="flex items-start justify-between p-4 border-b rounded-t dark:border-gray-600">
+            <div class="flex items-start justify-between p-4 border-b rounded-t dark:border-gray-600 bg-gray-100">
                 <h3 class="text-xl font-semibold text-gray-900 dark:text-white">
                     {{ $header }}
                 </h3>

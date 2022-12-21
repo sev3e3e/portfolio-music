@@ -2,7 +2,7 @@
 
 
 
-<div class="mt-4 dark:text-white text-black">
+<div class="mt-4 text-black">
     <form action="/song/{{ $song->id }}" method="POST" enctype="multipart/form-data" class="flex flex-col  gap-3">
         @method("$method")
         @csrf
