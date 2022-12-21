@@ -37,24 +37,25 @@ window.addEventListener("DOMContentLoaded", () => {
             console.log(data);
             datas = data;
             changeButtonStyles(currentSongIndex);
-            changeSong(data[0]);
+            changeSong(data[0], false);
         });
 });
 
-function changeSong(data) {
+function changeSong(data, isPlay) {
     console.log(data);
-    bgSource.src = data.movieSrc;
+    bgSource.src = data.movie_source;
     bg.load();
 
-    audioSource.src = data.audioSrc;
+    audioSource.src = data.audio_source;
     audio.load();
 
     songTitle.innerHTML = data.name;
     songCreator.innerHTML = data.creators[0].name;
     progressBar.value = 0;
-
-    audio.play();
-    bg.play();
+    if (isPlay) {
+        audio.play();
+        bg.play();
+    }
 }
 
 function changeButtonStyles(currentIndex) {
@@ -104,7 +105,7 @@ prevButton.addEventListener("click", () => {
 
     currentSongIndex -= 1;
     changeButtonStyles(currentSongIndex);
-    changeSong(datas[currentSongIndex]);
+    changeSong(datas[currentSongIndex], true);
 });
 nextButton.addEventListener("click", () => {
     if (datas.length - 1 <= currentSongIndex) return;
@@ -117,7 +118,7 @@ nextButton.addEventListener("click", () => {
 
     currentSongIndex += 1;
     changeButtonStyles(currentSongIndex);
-    changeSong(datas[currentSongIndex]);
+    changeSong(datas[currentSongIndex], true);
 });
 
 audio.addEventListener("play", () => {
@@ -153,7 +154,7 @@ audio.addEventListener("ended", () => {
 
     currentSongIndex += 1;
     changeButtonStyles(currentSongIndex);
-    changeSong(datas[currentSongIndex]);
+    changeSong(datas[currentSongIndex], true);
 
     // fetch(`/song/both?id=${currentSongId + 1}`)
     //     .then((res) => res.json())

@@ -152,12 +152,35 @@ class SongController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Song  $song
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Song $song)
+    public function update(Request $request)
     {
-        //
+        $id = $request->get("id");
+        $song = Song::find($id);
+
+        $creator = Creator::where("name", "=", $request->get("songCreator"))->first();
+
+        if ($creator === null) {
+            $_creator = $song->creators()->create([
+                "name" => $request->get("creator")
+            ]);
+            $song->creators()->syncWithoutDetaching($_creator->id);
+        } else {
+            $song->creators()->syncWithoutDetaching($creator->id);
+        }
+
+        $song->name = $request->get("songName");
+        $song->description = $request->get("songDesc");
+        if ($request->has("songAudio")) {
+        }
+
+        if ($request->has("songMedia")) {
+        }
+
+        $song->save();
+
+        return back();
     }
 
     /**
@@ -189,15 +212,15 @@ class SongController extends Controller
 
     public function all()
     {
-        $disk = Storage::disk("gcs");
+        // $disk = Storage::disk("gcs");
 
         $datas = Song::with("creators")->get();
 
-        foreach ($datas as &$value) {
-            $id = $value->id;
-            $value->audioSrc = $disk->url("audios/${id}.mp3");
-            $value->movieSrc = $disk->url("medias/${id}.mp4");
-        }
+        // foreach ($datas as &$value) {
+        //     $id = $value->id;
+        //     $value->audioSrc = $disk->url("audios/${id}.mp3");
+        //     $value->movieSrc = $disk->url("medias/${id}.mp4");
+        // }
         return response()->json($datas);
     }
 }

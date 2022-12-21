@@ -6,6 +6,9 @@ use App\Models\Creator;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Storage;
 use App\Models\Song;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -28,21 +31,23 @@ Route::get('/', function () {
     //     "songSrc" => $disk->url("audios/${id}.mp3"),
     //     "movieSrc" => $disk->url("medias/${id}.mp4"),
     // ]);
-    return view("index", [
-        "creators" => Creator::all()
-    ]);
-});
+    return view("index");
+})->name("home");
 
 Route::get("song/prev", [SongController::class, "previous"]);
 Route::get("song/next", [SongController::class, "next"]);
 Route::get("song/both", [SongController::class, "both"]);
 Route::get("song/all", [SongController::class, "all"]);
 Route::get("song/{id}", [SongController::class, "show"]);
+Route::patch("song/{id}", [SongController::class, "update"]);
 
 Route::resource('songs', SongController::class);
 
 Route::get('/dashboard', function () {
-    return view('dashboard');
+    $songs = Auth::user()->songs()->with("creators")->get();
+    return view('dashboard', [
+        "songs" => $songs
+    ]);
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
