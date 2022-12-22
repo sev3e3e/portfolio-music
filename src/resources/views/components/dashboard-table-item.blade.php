@@ -84,14 +84,48 @@
                 <x-song-edit-micromodal :song="$song" method="PATCH" />
             </x-slot>
         </x-micromodal>
-        <script>
-            function t_modal_{{ $song->id }}() {
-                document.getElementById("song-item-{{ $song->id }}").classList.toggle("hidden")
-            }
-        </script>
-        <x-danger-button onclick='t_modal_{{ $song->id }}()'>
+        <x-danger-button data-micromodal-trigger="dashboard-delete-modal-{{ $song->id }}">
             Delete
         </x-danger-button>
+        <x-micromodal id="dashboard-delete-modal-{{ $song->id }}">
+            <x-slot name="header">
+                <div class="text-black flex gap-2 justify-start items-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                        stroke="black" class="w-10 h-10">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                            d="M9.75 9.75l4.5 4.5m0-4.5l-4.5 4.5M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                    <p>Are you sure?</p>
+
+                </div>
+            </x-slot>
+            <x-slot name="body">
+                <div class="text-center text-black">
+                    <div class="flex flex-col gap-3 p-3">
+                        <div class="text-2xl">{{ $song->name }}</div>
+                        <div class="text-xl">{{ $song->creators[0]->name }}</div>
+                    </div>
+                    <video id="previewMedia" class="mt-2 w-full" preload="metadata">
+                        <source id="previewMediaSource" src={{ $song->movie_source }} />
+                    </video>
+                    <div class="bg-red-300 text-black text-lg">
+                        <p>この動作は取り消せません。本当に削除しますか？</p>
+                    </div>
+                </div>
+                <form action="/song/{{ $song->id }}" method="POST"
+                    class="flex gap-3 justify-end items-center p-4">
+                    @method('DELETE')
+                    @csrf
+
+                    {!! Form::hidden('id', $song->id) !!}
+
+                    <x-secondary-button data-micromodal-close>Cancel</x-secondary-button>
+                    <x-danger-button type="input">
+                        Delete
+                    </x-danger-button>
+                </form>
+            </x-slot>
+        </x-micromodal>
 
         {{-- <x-js-modal id="song-item-{{ $song->id }}">
             <video class="max-w-2xl max-h-max" src="{{ $song->movie_source }}" controls></video>

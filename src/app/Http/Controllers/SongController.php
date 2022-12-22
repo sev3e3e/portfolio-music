@@ -148,6 +148,25 @@ class SongController extends Controller
         //
     }
 
+    public function delete(Request $request)
+    {
+        $id = $request->get("id");
+        $song = Song::find($id);
+
+        // Delete files on GCS
+        $disk = Storage::disk('gcs');
+
+        $audioFile = basename(parse_url($song->audio_source, PHP_URL_PATH));
+        $movieFile = basename(parse_url($song->movie_source, PHP_URL_PATH));
+        $disk->delete("audios/${audioFile}");
+        $disk->delete("medias/${movieFile}");
+
+        $song->creators()->detach();
+        $song->delete();
+
+        return back();
+    }
+
     /**
      * Update the specified resource in storage.
      *

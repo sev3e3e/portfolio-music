@@ -11,11 +11,6 @@
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900 ">
                     {{-- table --}}
-                    <script>
-                        function tableToggle(id) {
-                            document.getElementById(id).classList.toggle("hidden");
-                        }
-                    </script>
                     <div class="overflow-x-auto relative shadow-md sm:rounded-lg">
                         <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
                             <caption

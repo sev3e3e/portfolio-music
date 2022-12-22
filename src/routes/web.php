@@ -40,6 +40,7 @@ Route::get("song/both", [SongController::class, "both"]);
 Route::get("song/all", [SongController::class, "all"]);
 Route::get("song/{id}", [SongController::class, "show"]);
 Route::patch("song/{id}", [SongController::class, "update"]);
+Route::delete("song/{id}", [SongController::class, "delete"]);
 
 Route::resource('songs', SongController::class);
 
