@@ -38,9 +38,14 @@ Route::get("song/prev", [SongController::class, "previous"]);
 Route::get("song/next", [SongController::class, "next"]);
 Route::get("song/both", [SongController::class, "both"]);
 Route::get("song/all", [SongController::class, "all"]);
+
+Route::get("song/create", [SongController::class, "create"])->middleware(['auth', 'verified'])->name("song.create");
+Route::post("song/create", [SongController::class, "store"])->middleware(["auth", "verified"])->name("song.store");
+
 Route::get("song/{id}", [SongController::class, "show"]);
 Route::patch("song/{id}", [SongController::class, "update"]);
 Route::delete("song/{id}", [SongController::class, "delete"]);
+
 
 Route::resource('songs', SongController::class);
 

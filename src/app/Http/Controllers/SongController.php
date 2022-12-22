@@ -20,15 +20,18 @@ class SongController extends Controller
     {
         //
     }
-
     /**
      * Show the form for creating a new resource.
      *
-     * @return \Illuminate\Http\Response
+     *
      */
     public function create()
     {
-        //
+        return view("song.create");
+    }
+
+    public function add()
+    {
     }
 
     /**
@@ -39,21 +42,15 @@ class SongController extends Controller
      */
     public function store(Request $request)
     {
-        //
-        // $song = Auth::user()
-        //     ->songs()
-        //     ->create([
-        //         "name" => $request->songName,
-        //         "description" => $request->songDesc,
-        //     ]);
+        $attrs = $request->only(["name", "creator", "description",]);
         $song = Auth::user()
             ->songs()
             ->create([
-                "name" => $request->songName,
-                "description" => $request->songDesc,
+                "name" => $attrs["name"],
+                "description" => $attrs["description"],
             ]);
 
-        $creator = Creator::where("name", "=", $request->get("creator"))->first();
+        $creator = Creator::where("name", "=", $attrs["creator"])->first();
 
         if ($creator === null) {
             $_creator = $song->creators()->create([
@@ -63,8 +60,6 @@ class SongController extends Controller
         } else {
             $song->creators()->syncWithoutDetaching($creator->id);
         }
-
-        // info($obj);
 
         $disk = Storage::disk("gcs");
 
@@ -76,6 +71,14 @@ class SongController extends Controller
             "medias/{$song->id}.mp4",
             file_get_contents($request->file("songMedia"))
         );
+
+        $audioSrc = $disk->url("audios/{$song->id}.mp3");
+        $movieSrc = $disk->url("medias/{$song->id}.mp4");
+
+        $song->audio_source = $audioSrc;
+        $song->movie_source = $movieSrc;
+
+        $song->save();
 
         return redirect("/");
     }
