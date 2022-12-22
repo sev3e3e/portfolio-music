@@ -23,7 +23,11 @@
 
             <!-- Settings Dropdown -->
             @auth
+
                 <div class="hidden sm:flex sm:items-center sm:ml-6">
+                    <div>
+                        <x-primary-button><a href="{{ route('song.create') }}">Add song</a></x-primary-button>
+                    </div>
                     <x-dropdown align="right" width="48">
                         <x-slot name="trigger">
                             <button
