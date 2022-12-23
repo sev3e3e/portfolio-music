@@ -178,7 +178,7 @@ class SongController extends Controller
      */
     public function update(Request $request)
     {
-
+        // dd($request->all());
         $id = $request->get("id");
         $song = Song::find($id);
         $creator = Creator::where("name", "=", $request->get("creator"))->first();
@@ -194,10 +194,32 @@ class SongController extends Controller
 
         $song->name = $request->get("songName");
         $song->description = $request->get("songDesc");
+
+        $disk = Storage::disk("gcs");
+
         if ($request->has("songAudio")) {
+            // delete
+            // $disk->delete("audios/{$id}.mp3");
+
+            // create
+            $disk->put(
+                "audios/{$id}.mp3",
+                file_get_contents($request->file("songAudio"))
+            );
+            $song->audio_source = $disk->url("audios/{$id}.mp3");
         }
 
         if ($request->has("songMedia")) {
+            // delete
+            // $disk->delete("medias/{$id}.mp4");
+
+            // create
+            $disk->put(
+                "medias/{$id}.mp4",
+                file_get_contents($request->file("songMedia"))
+            );
+
+            $song->movie_source = $disk->url("medias/{$id}.mp4");
         }
 
         $song->save();
