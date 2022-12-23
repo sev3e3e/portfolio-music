@@ -126,9 +126,5 @@
                 </form>
             </x-slot>
         </x-micromodal>
-
-        {{-- <x-js-modal id="song-item-{{ $song->id }}">
-            <video class="max-w-2xl max-h-max" src="{{ $song->movie_source }}" controls></video>
-        </x-js-modal> --}}
     </td>
 </tr>
