@@ -54,7 +54,7 @@ class SongController extends Controller
 
         if ($creator === null) {
             $_creator = $song->creators()->create([
-                "name" => $request->get("creator")
+                "name" => $attrs["creator"]
             ]);
             $song->creators()->syncWithoutDetaching($_creator->id);
         } else {
@@ -178,18 +178,18 @@ class SongController extends Controller
      */
     public function update(Request $request)
     {
+
         $id = $request->get("id");
         $song = Song::find($id);
-
-        $creator = Creator::where("name", "=", $request->get("songCreator"))->first();
+        $creator = Creator::where("name", "=", $request->get("creator"))->first();
 
         if ($creator === null) {
             $_creator = $song->creators()->create([
                 "name" => $request->get("creator")
             ]);
-            $song->creators()->syncWithoutDetaching($_creator->id);
+            $song->creators()->sync($_creator->id);
         } else {
-            $song->creators()->syncWithoutDetaching($creator->id);
+            $song->creators()->sync($creator->id);
         }
 
         $song->name = $request->get("songName");
