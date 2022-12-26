@@ -55,14 +55,14 @@
     @endpush
 @endonce
 
-<tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-    <th scope="row" class="py-4 px-6 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+<tr class="flex flex-col mb-2 bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+    <td scope="row" class="py-4 px-6 font-medium text-gray-900  dark:text-white">
         {{ $song->name }}
-    </th>
-    <td class="py-4 px-6">
+    </td>
+    <td class="py-4 px-6 font-medium text-gray-900  dark:text-white">
         {{ $song->creators[0]->name }}
     </td>
-    <td class="py-4 px-6">
+    <td class="py-4 px-6 font-medium text-gray-900  dark:text-white">
         {{ $song->description }}
     </td>
     <td class="flex flex-col py-4 px-6 text-right">

@@ -14,6 +14,7 @@
     <!-- Scripts -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     @stack('scripts')
+    @stack('stylesheets')
 </head>
 
 <body class="font-sans antialiased max-h-screen">
