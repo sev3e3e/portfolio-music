@@ -7,6 +7,7 @@ var prevButton = document.getElementById("prevButton");
 var nextButton = document.getElementById("nextButton");
 
 var progressBar = document.getElementById("progress");
+var volumeBar = document.getElementById("volume");
 var playingStatus = document.getElementById("playingStatus");
 var bg = document.getElementById("bg-video");
 var audioSource = document.getElementById("audio-source");
@@ -21,6 +22,11 @@ var isAudioPlaying = false;
 const _sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
 var datas = [];
+
+function init() {
+    progressBar.value = 0;
+    volumeBar.value = audio.volume * 100;
+}
 
 window.addEventListener("DOMContentLoaded", () => {
     // init index page.
@@ -39,6 +45,8 @@ window.addEventListener("DOMContentLoaded", () => {
             changeButtonStyles(currentSongIndex);
             changeSong(data[0], false);
         });
+
+    init();
 });
 
 function changeSong(data, isPlay) {
@@ -180,4 +188,8 @@ progressBar.addEventListener("change", () => {
         audio.currentTime = (audio.duration || 0) * pct;
         bg.currentTime = (audio.duration || 0) * pct;
     }
+});
+
+volumeBar.addEventListener("input", () => {
+    audio.volume = volumeBar.value / 100;
 });
