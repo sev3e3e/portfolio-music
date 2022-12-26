@@ -25,7 +25,7 @@
             </audio>
 
             <div
-                class="flex flex-col  bg-black bg-opacity-20 backdrop-blur-lg rounded drop-shadow-md sm:p-10 p-3 min-h-screen sm:min-h-full min-w-full sm:min-w-min">
+                class="flex flex-col  bg-black bg-opacity-20 backdrop-blur-lg rounded drop-shadow-md sm:p-10 p-3 min-w-full min-h-screen sm:min-h-full sm:min-w-[640px] sm:max-w-7xl">
                 <div class="flex pb-3 gap-1 items-center justify-start">
                     <svg class="sm:w-20 sm:h-20 w-14 h-14" fill="none" stroke="currentColor" viewBox="0 0 24 24"
                         xmlns="http://www.w3.org/2000/svg">
