@@ -1,9 +1,4 @@
 @once
-
-    @push('stylesheets')
-        @vite(['resources/css/index.tailwind.css'])
-    @endpush
-
     @push('scripts')
         @vite(['resources/js/index.js', 'resources/js/modal.js'])
     @endpush
